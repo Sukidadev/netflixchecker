@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-  # Indiquer l'encodage UTF-8
 import os
 import json
 import time
