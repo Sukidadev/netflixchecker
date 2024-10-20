@@ -12,7 +12,6 @@ from selenium.webdriver.firefox.options import Options
 from colorama import Fore, Style, init
 import sys
 import subprocess  # Pour relancer le script
-import tempfile  # Pour utiliser un fichier temporaire
 
 # Initialisation de Colorama
 init(autoreset=True)
@@ -21,10 +20,10 @@ init(autoreset=True)
 CURRENT_VERSION = "1.0.2"
 
 # URL du fichier texte qui contient la version la plus récente
-VERSION_URL = "https://exemple.com/latest_version.txt"
+VERSION_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/main/latest_version.txt"
 
 # URL de téléchargement de la nouvelle version
-DOWNLOAD_URL = "https://github.com/Sukidadev/netflixchecker/blob/main/netflixchecker.py"
+DOWNLOAD_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/main/netflixchecker.py"
 
 # Liste des proxys à utiliser
 proxies = [
@@ -77,23 +76,30 @@ def check_version():
             print(f"{Fore.RED}[ERROR] Vous utilisez la version {CURRENT_VERSION}.")
             print(f"{Fore.RED}[INFO] Une nouvelle version ({latest_version}) est disponible. Téléchargement en cours...{Style.RESET_ALL}")
             download_new_version()  # Télécharge et remplace le fichier actuel
-            schedule_update()  # Planifie la mise à jour après fermeture du script
+            relaunch_script()  # Relance le script après mise à jour
     except requests.RequestException as e:
         print(f"{Fore.RED}[ERROR] Impossible de vérifier la version. Détails : {e}")
         exit(1)  # Si la version ne peut pas être vérifiée, on empêche l'exécution
 
 def download_new_version():
     try:
-        # Télécharge la nouvelle version dans un fichier temporaire
+        # Télécharge la nouvelle version depuis l'URL
         response = requests.get(DOWNLOAD_URL, stream=True)
         if response.status_code == 200:
             # Sauvegarde la nouvelle version dans un fichier temporaire
-            temp_dir = tempfile.gettempdir()
-            new_version_path = os.path.join(temp_dir, "updated_script.py")
+            new_version_path = os.path.join(os.getenv("TEMP"), "updated_script.py")
             with open(new_version_path, 'wb') as f:
                 shutil.copyfileobj(response.raw, f)
-            print(f"{Fore.GREEN}[INFO] Nouvelle version téléchargée avec succès dans {new_version_path}.{Style.RESET_ALL}")
-            return new_version_path
+            print(f"{Fore.GREEN}[INFO] Nouvelle version téléchargée avec succès.{Style.RESET_ALL}")
+
+            # Remplace l'ancienne version par la nouvelle
+            script_path = sys.argv[0]
+            try:
+                shutil.move(new_version_path, script_path)
+                print(f"{Fore.GREEN}[INFO] Le script a été mis à jour.{Style.RESET_ALL}")
+            except Exception as e:
+                print(f"{Fore.RED}[ERROR] Erreur lors de la mise à jour du script : {e}{Style.RESET_ALL}")
+                exit(1)
         else:
             print(f"{Fore.RED}[ERROR] Impossible de télécharger la nouvelle version.{Style.RESET_ALL}")
             exit(1)
@@ -101,28 +107,11 @@ def download_new_version():
         print(f"{Fore.RED}[ERROR] Erreur lors du téléchargement de la nouvelle version : {e}{Style.RESET_ALL}")
         exit(1)
 
-def schedule_update():
-    print(f"{Fore.CYAN}[INFO] Mise à jour planifiée. Le script se relancera avec la nouvelle version après fermeture.{Style.RESET_ALL}")
-    script_path = sys.argv[0]
-    new_version_path = download_new_version()
-
-    # Crée un script batch pour remplacer l'ancien fichier et relancer le script
-    update_script = f"""
-    @echo off
-    timeout /t 3 >nul
-    copy /y "{new_version_path}" "{script_path}"
-    start "" "{sys.executable}" "{script_path}"
-    exit
-    """
-    
-    # Sauvegarde le batch dans un fichier temporaire
-    batch_path = os.path.join(tempfile.gettempdir(), "update_script.bat")
-    with open(batch_path, 'w') as batch_file:
-        batch_file.write(update_script)
-    
-    # Exécute le script batch
-    subprocess.Popen([batch_path], shell=True)
-    exit(0)  # Quitte le script actuel pour permettre la mise à jour
+def relaunch_script():
+    print(f"{Fore.CYAN}[INFO] Relancement du script mis à jour...{Style.RESET_ALL}")
+    # Utilise subprocess pour relancer le script
+    subprocess.Popen([sys.executable] + sys.argv)
+    exit(0)  # Quitte le script actuel
 
 def check_credentials(email, password, proxy):
     options = Options()
