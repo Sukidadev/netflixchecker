@@ -17,7 +17,7 @@ import subprocess  # Pour relancer le script
 init(autoreset=True)
 
 # Version actuelle du script
-CURRENT_VERSION = "1.0.0"
+CURRENT_VERSION = "1.0.1"
 
 # URL du fichier texte qui contient la version la plus récente
 VERSION_URL = "https://exemple.com/latest_version.txt"
