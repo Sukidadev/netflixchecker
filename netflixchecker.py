@@ -4,14 +4,14 @@ import time
 import tkinter as tk
 from tkinter import filedialog
 import requests
-import shutil  # Pour remplacer les fichiers
+import shutil
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from colorama import Fore, Style, init
 import sys
-import subprocess  # Pour relancer le script
+import subprocess
 
 # Initialisation de Colorama
 init(autoreset=True)
@@ -20,10 +20,10 @@ init(autoreset=True)
 CURRENT_VERSION = "1.0.2"
 
 # URL du fichier texte qui contient la version la plus récente
-VERSION_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/main/latest_version.txt"
+VERSION_URL = "https://exemple.com/latest_version.txt"  # Remplacez par votre URL réelle
 
 # URL de téléchargement de la nouvelle version
-DOWNLOAD_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/main/netflixchecker.py"
+DOWNLOAD_URL = "https://github.com/Sukidadev/netflixchecker/raw/main/netflixchecker.py"
 
 # Liste des proxys à utiliser
 proxies = [
@@ -31,10 +31,9 @@ proxies = [
     "93291889-zone-custom-region-FR-sessid-PK0y3olo-sessTime-60:0llEad0L@f.proxys5.net:6200",
 ]
 
-def center(var: str, space: int = None):  # From Pycenter
+def center(var: str, space: int = None):
     if not space:
-        space = (os.get_terminal_size().columns- len(var.splitlines()[int(len(var.splitlines()) / 2)])) / 2
-    
+        space = (os.get_terminal_size().columns - len(var.splitlines()[int(len(var.splitlines()) / 2)])) / 2
     return "\n".join((" " * int(space)) + var for var in var.splitlines())
 
 def print_ascii_art():
@@ -44,9 +43,9 @@ def print_ascii_art():
 ░ ▓██▄   ▓██  ▒██░▓███▄░ 
   ▒   ██▒▓▓█  ░██░▓██ █▄ 
 ▒██████▒▒▒▒█████▓ ▒██▒ █▄
-▒ ▒▓▒ ▒ ░░▒▓▒ ▒ ▒ ▒ ▒▒ ▓▒
-░ ░▒  ░  ░░▒░ ░ ░ ░ ░▒ ▒░
-░  ░  ░   ░░░ ░ ░ ░ ░░ ░ 
+▒ ▒▓▒ ▒ ░░▒▓▒ ▒ ▒ ▒▒▒ ▓▒
+░ ░▒  ░  ░░▒░ ░ ░ ░▒ ▒░
+░  ░  ░   ░░░ ░ ░ ░░ ░ 
       ░     ░     ░  ░   
     """
 
@@ -87,19 +86,15 @@ def download_new_version():
         response = requests.get(DOWNLOAD_URL, stream=True)
         if response.status_code == 200:
             # Sauvegarde la nouvelle version dans un fichier temporaire
-            new_version_path = os.path.join(os.getenv("TEMP"), "updated_script.py")
+            new_version_path = "updated_script.py"
             with open(new_version_path, 'wb') as f:
                 shutil.copyfileobj(response.raw, f)
             print(f"{Fore.GREEN}[INFO] Nouvelle version téléchargée avec succès.{Style.RESET_ALL}")
 
             # Remplace l'ancienne version par la nouvelle
             script_path = sys.argv[0]
-            try:
-                shutil.move(new_version_path, script_path)
-                print(f"{Fore.GREEN}[INFO] Le script a été mis à jour.{Style.RESET_ALL}")
-            except Exception as e:
-                print(f"{Fore.RED}[ERROR] Erreur lors de la mise à jour du script : {e}{Style.RESET_ALL}")
-                exit(1)
+            shutil.move(new_version_path, script_path)
+            print(f"{Fore.GREEN}[INFO] Le script a été mis à jour.{Style.RESET_ALL}")
         else:
             print(f"{Fore.RED}[ERROR] Impossible de télécharger la nouvelle version.{Style.RESET_ALL}")
             exit(1)
