@@ -24,7 +24,7 @@ CURRENT_VERSION = "1.0.2"
 VERSION_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/refs/heads/main/latest_version.txt"  # Remplacez par votre URL réelle
 
 # URL de téléchargement de la nouvelle version
-DOWNLOAD_URL = "https://github.com/Sukidadev/netflixchecker/raw/main/netflixchecker.py"
+DOWNLOAD_URL = "https://api.github.com/repos/Sukidadev/netflixchecker/contents/netflixchecker.py"
 
 # Liste des proxys à utiliser
 proxies = [
