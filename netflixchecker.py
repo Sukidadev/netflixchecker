@@ -140,7 +140,7 @@ def run_script(file_path):
             for i, combo in enumerate(combos):
                 email = combo["email"]
                 password = combo["password"]
-                proxy = proxy[i % len(proxy)]
+                proxy_used = proxies[i % len(proxies)]  # Utilisez un proxy de la liste
 
                 result = f"Test de connexion pour {email}:{password} via proxy {proxy}..."
                 print(result)
