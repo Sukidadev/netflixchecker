@@ -1,7 +1,7 @@
-🎬 Guide d'Utilisation du Script Netflix Checker
+🎬 Guide d'Utilisation de Netflix Checker
 🚀 Prérequis
 
-Avant de plonger dans l'aventure, assurez-vous d'avoir tout le nécessaire :
+assurez-vous d'avoir tout le nécessaire :
 
     Python 3.x
     Vérifiez son installation avec :
