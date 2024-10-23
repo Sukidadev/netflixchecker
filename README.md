@@ -71,4 +71,4 @@ json
 
     Utilisation des Proxies : La liste des proxies est modifiable dans le code si nécessaire.
 
-Si vous avez besoin de plus d'informations ou d'autres ajustements, faites-le moi savoir !
+Si vous avez besoin de plus d'informations ou d'autres ajustements, n'hésitez pas à me contacter sur Discord !
