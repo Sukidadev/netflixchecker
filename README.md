@@ -1,6 +1,6 @@
 # don't close the firefox page
 
 ### pip install :
-requests
-colorama
-selenium
+requests<br>
+colorama<br>
+selenium<br>
