@@ -1,5 +1,5 @@
-#🎬 Guide d'Utilisation du Script Netflix Checker
-##🚀 Prérequis
+🎬 Guide d'Utilisation du Script Netflix Checker
+🚀 Prérequis
 
 Avant de plonger dans l'aventure, assurez-vous d'avoir tout le nécessaire :
 
