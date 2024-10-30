@@ -21,10 +21,10 @@ init(autoreset=True)
 CURRENT_VERSION = "1.0.2"
 
 
-VERSION_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/refs/heads/main/latest_version.txt"
+VERSION_URL = "https://raw.githubusercontent.com/louisroi/netflixchecker/refs/heads/main/latest_version.txt"
 
 
-DOWNLOAD_URL = "https://raw.githubusercontent.com/Sukidadev/netflixchecker/main/netflixchecker.py"
+DOWNLOAD_URL = "https://raw.githubusercontent.com/louisroi/netflixchecker/main/netflixchecker.py"
 
 
 PROXIES = [
